@@ -68,11 +68,25 @@ Production-ready setup includes:
 3. Create a new Blueprint or connect the GitHub repo
 4. Render will read `render.yaml`
 5. Deploy the web service and PostgreSQL database
-6. After deploy finishes, open Render Shell and run:
+6. If Render Shell is available, open it and run:
 
 ```powershell
 python manage.py createsuperuser
 ```
+
+If Render Shell is not available on your plan, use the custom admin command instead:
+
+1. Add these environment variables in Render:
+   - `ADMIN_USERNAME`
+   - `ADMIN_EMAIL`
+   - `ADMIN_PASSWORD`
+2. Temporarily run this command during deploy or from a one-off command setup:
+
+```powershell
+python manage.py ensure_admin
+```
+
+This command creates the admin user if it does not exist, or updates the existing admin password and email if it already exists.
 
 ### Important Render Notes
 
