@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <p class="eyebrow">User dashboard</p>
+      <h2>Your customer workspace</h2>
+      <p>Track orders, manage saved bikes, and keep an eye on your listing activity from one page.</p>
+    </div>
+    <div class="dashboard-grid">
+      <div class="metric-card">
+        <strong>{{ approved_listings }}</strong>
+        <span class="muted">Approved listings</span>
+      </div>
+      <div class="metric-card">
+        <strong>{{ pending_listings }}</strong>
+        <span class="muted">Pending approval</span>
+      </div>
+      <div class="metric-card">
+        <strong>{{ orders|length }}</strong>
+        <span class="muted">Recent orders</span>
+      </div>
+      <div class="metric-card">
+        <strong>{{ wishlist_items|length }}</strong>
+        <span class="muted">Wishlist previews</span>
+      </div>
+
+      <div class="table-card">
+        <h3>Recent orders</h3>
+        {% if orders %}
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+                <tr>
+                  <td>#{{ order.id }}</td>
+                  <td>{{ order.created_at|date:"M d, Y" }}</td>
+                  <td>{{ order.status }}</td>
+                  <td>৳{{ order.total_price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="empty-state">No recent orders yet.</div>
+        {% endif %}
+      </div>
+
+      <aside class="side-card">
+        <h3>Wishlist preview</h3>
+        <div class="review-list">
+          {% for item in wishlist_items %}
+            <div class="review-card">
+              <strong>{{ item.bike.name }}</strong>
+              <p class="muted">৳{{ item.bike.price }}</p>
+            </div>
+          {% empty %}
+            <div class="empty-state">Wishlist is empty.</div>
+          {% endfor %}
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{% endblock %}

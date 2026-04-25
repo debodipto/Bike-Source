@@ -1,0 +1,37 @@
+<article class="product-card">
+  <a class="product-media" href="{% url 'product_detail' bike.id %}">
+    {% if bike.get_first_image %}
+      <img src="{{ bike.get_first_image.image.url }}" alt="{{ bike.name }}">
+    {% else %}
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/512px-No_image_available.svg.png" alt="{{ bike.name }}">
+    {% endif %}
+  </a>
+  <div class="badge-row">
+    <span class="badge">{{ bike.condition }}</span>
+    {% if bike.is_featured %}<span class="badge badge-green">Featured</span>{% endif %}
+    {% if bike.is_negotiable %}<span class="badge">Negotiable</span>{% endif %}
+  </div>
+  <div>
+    <h3><a href="{% url 'product_detail' bike.id %}">{{ bike.name }}</a></h3>
+    <p class="muted">{{ bike.brand }}{% if bike.model_year %} | {{ bike.model_year }}{% endif %}</p>
+  </div>
+  <div class="meta-row">
+    <span>{{ bike.category.name }}</span>
+    {% if bike.location %}<span>{{ bike.location }}</span>{% endif %}
+    {% if bike.mileage %}<span>{{ bike.mileage }} km</span>{% endif %}
+  </div>
+  <div class="product-footer">
+    <div>
+      <div class="price">Tk {{ bike.price }}</div>
+      <div class="helper-text">{{ bike.review_count }} review{{ bike.review_count|pluralize }}</div>
+    </div>
+    <div class="inline-actions">
+      <a class="pill-link" href="{% url 'toggle_compare' bike.id %}">
+        {% if bike.id|stringformat:"s" in compare_ids %}Remove Compare{% else %}Compare{% endif %}
+      </a>
+      {% if request.user.is_authenticated %}
+        <a class="pill-link" href="{% url 'toggle_wishlist' bike.id %}">Wishlist</a>
+      {% endif %}
+    </div>
+  </div>
+</article>

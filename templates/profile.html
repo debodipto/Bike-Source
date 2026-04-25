@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Profile | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container profile-grid">
+    <div class="glass-card">
+      <p class="eyebrow">Profile</p>
+      <h2>{{ profile.get_full_name|default:profile.username }}</h2>
+      <p class="muted">{{ profile.email }}</p>
+      <div class="review-list">
+        <div class="review-card">
+          <strong>{{ wishlist_count }}</strong>
+          <p class="muted">Saved wishlist items</p>
+        </div>
+        <div class="review-card">
+          <strong>{{ listings|length }}</strong>
+          <p class="muted">Recent listings</p>
+        </div>
+        <div class="review-card">
+          <strong>{{ orders|length }}</strong>
+          <p class="muted">Recent orders</p>
+        </div>
+      </div>
+      <div class="stack-actions">
+        <a class="button" href="{% url 'update_profile' %}">Update profile</a>
+        <a class="pill-link" href="{% url 'change_password' %}">Change password</a>
+      </div>
+    </div>
+    <div class="glass-card">
+      <div class="section-title">
+        <h2>Recent account activity</h2>
+      </div>
+      <h3>Your recent listings</h3>
+      <div class="review-list">
+        {% for listing in listings %}
+          <div class="review-card">
+            <strong>{{ listing.name }}</strong>
+            <p class="muted">{{ listing.status }} • ৳{{ listing.price }}</p>
+          </div>
+        {% empty %}
+          <div class="empty-state">You have not added any bike listings yet.</div>
+        {% endfor %}
+      </div>
+      <h3 style="margin-top: 28px;">Recent orders</h3>
+      <div class="review-list">
+        {% for order in orders %}
+          <div class="review-card">
+            <strong>Order #{{ order.id }}</strong>
+            <p class="muted">{{ order.status }} • ৳{{ order.total_price }}</p>
+          </div>
+        {% empty %}
+          <div class="empty-state">You have not placed any orders yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

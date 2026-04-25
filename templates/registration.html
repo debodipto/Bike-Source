@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Create Account | Bike Source{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="auth-card">
+    <p class="eyebrow">Create your account</p>
+    <h1>Join the Bike Source marketplace.</h1>
+    <form method="post" class="form-grid">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field {% if field.name == 'password1' or field.name == 'password2' %}field-wide{% endif %}">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<div class="helper-text">{{ field.help_text }}</div>{% endif %}
+          {% for error in field.errors %}<div class="helper-text" style="color: var(--danger);">{{ error }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+      <div class="field-wide">
+        <button type="submit">Create account</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Sell Your Bike | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container split-grid">
+    <div class="glass-card" style="grid-column: span 5;">
+      <p class="eyebrow">Seller studio</p>
+      <h2>List your used bike like a professional dealer.</h2>
+      <p class="lead">The upgraded listing flow now supports richer product information like brand, year, mileage, condition, location, negotiation status, and multiple photos.</p>
+      <div class="review-list">
+        <div class="review-card">
+          <strong>Approval workflow</strong>
+          <p class="muted">Listings are reviewed before going live to keep marketplace quality high.</p>
+        </div>
+        <div class="review-card">
+          <strong>Customer-friendly presentation</strong>
+          <p class="muted">Structured metadata improves search, filters, and trust.</p>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card" style="grid-column: span 7;">
+      <div class="section-title">
+        <h2>Create a new listing</h2>
+      </div>
+      <form method="post" enctype="multipart/form-data" class="form-grid">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="{% if field.name == 'description' or field.name == 'image' %}field-wide{% else %}field{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}<div class="helper-text" style="color: var(--danger);">{{ error }}</div>{% endfor %}
+          </div>
+        {% endfor %}
+        <div class="field-wide">
+          <button type="submit">Submit listing for approval</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

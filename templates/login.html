@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Login | Bike Source{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="auth-card">
+    <p class="eyebrow">Welcome back</p>
+    <h1>Sign in to your marketplace account.</h1>
+    <form method="post" class="form-grid">
+      {% csrf_token %}
+      <div class="field-wide">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="field-wide">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+      </div>
+      <div class="field-wide">
+        <button type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

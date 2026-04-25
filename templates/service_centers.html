@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Service Centers | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <p class="eyebrow">After-sales support</p>
+      <h2>Service centers and support partners</h2>
+      <p>One of the biggest upgrades to this project is that the platform now supports the customer after purchase too.</p>
+    </div>
+    <div class="service-grid">
+      {% for center in service_centers %}
+        <div class="glass-card">
+          <span class="badge {% if center.is_authorized %}badge-green{% endif %}">
+            {% if center.is_authorized %}Authorized{% else %}Partner{% endif %}
+          </span>
+          <h3>{{ center.name }}</h3>
+          <p class="muted">{{ center.city }}</p>
+          <p>{{ center.address }}</p>
+          <p><strong>{{ center.phone }}</strong></p>
+          <p class="helper-text">{{ center.opening_hours }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

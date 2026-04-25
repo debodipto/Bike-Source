@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container detail-grid">
+    <div class="glass-card gallery-card">
+      {% if product.get_first_image %}
+        <img class="detail-hero-image" src="{{ product.get_first_image.image.url }}" alt="{{ product.name }}">
+      {% else %}
+        <img class="detail-hero-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/512px-No_image_available.svg.png" alt="{{ product.name }}">
+      {% endif %}
+      <div class="gallery-strip">
+        {% for image in product.images.all %}
+          <img src="{{ image.image.url }}" alt="{{ product.name }}">
+        {% empty %}
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/512px-No_image_available.svg.png" alt="{{ product.name }}">
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="glass-card detail-copy">
+      <div class="badge-row">
+        <span class="badge">{{ product.condition }}</span>
+        {% if product.is_featured %}<span class="badge badge-green">Featured</span>{% endif %}
+        {% if product.is_negotiable %}<span class="badge">Negotiable</span>{% endif %}
+      </div>
+      <h1>{{ product.name }}</h1>
+      <p class="lead">{{ product.brand }}{% if product.model_year %} • {{ product.model_year }}{% endif %}{% if product.engine_capacity %} • {{ product.engine_capacity }}{% endif %}</p>
+      <div class="price">৳{{ product.price }}</div>
+      <div class="meta-row" style="margin: 16px 0 22px;">
+        {% if product.location %}<span>{{ product.location }}</span>{% endif %}
+        {% if product.mileage %}<span>{{ product.mileage }} km ridden</span>{% endif %}
+        {% if product.quantity %}<span>{{ product.quantity }} unit{{ product.quantity|pluralize }} available</span>{% endif %}
+        <span>{{ product.review_count }} review{{ product.review_count|pluralize }}</span>
+      </div>
+      <p>{{ product.description|linebreaksbr }}</p>
+
+      <form action="{% url 'cart_add' product.id %}" method="post" class="form-grid" style="margin-top: 24px;">
+        {% csrf_token %}
+        <div class="field">
+          <label for="{{ cart_product_form.quantity.id_for_label }}">Quantity</label>
+          {{ cart_product_form.quantity }}
+          {{ cart_product_form.update }}
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <input type="submit" value="Add to cart">
+        </div>
+      </form>
+
+      <div class="inline-actions">
+        {% if request.user.is_authenticated %}
+          <a class="pill-link" href="{% url 'toggle_wishlist' product.id %}">
+            {% if in_wishlist %}Remove from wishlist{% else %}Add to wishlist{% endif %}
+          </a>
+        {% endif %}
+        <a class="pill-link" href="{% url 'inspection' %}?bike={{ product.id }}">Book inspection</a>
+        <a class="pill-link" href="{% url 'compare' %}?ids={{ product.id }}">Compare</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container split-grid">
+    <div class="glass-card" style="grid-column: span 7;">
+      <div class="section-title">
+        <h2>Customer reviews</h2>
+        <p>Real buyer-style feedback makes the marketplace feel more trustworthy and alive.</p>
+      </div>
+      <div class="review-list">
+        {% for review in reviews %}
+          <div class="review-card">
+            <div class="badge-row">
+              <span class="badge badge-green">{{ review.rating }}/5</span>
+              <span class="helper-text">{{ review.user.username }} • {{ review.created_at|date:"M d, Y" }}</span>
+            </div>
+            <p>{{ review.comment }}</p>
+          </div>
+        {% empty %}
+          <div class="empty-state">No reviews yet. Be the first rider to share feedback.</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="glass-card" style="grid-column: span 5;">
+      <div class="section-title">
+        <h2>Write a review</h2>
+      </div>
+      <form method="post" class="form-grid">
+        {% csrf_token %}
+        <div class="field-wide">
+          <label for="{{ review_form.rating.id_for_label }}">Rating</label>
+          {{ review_form.rating }}
+        </div>
+        <div class="field-wide">
+          <label for="{{ review_form.comment.id_for_label }}">Comment</label>
+          {{ review_form.comment }}
+        </div>
+        <div class="field-wide">
+          <button type="submit" name="submit_review">Submit review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Related bikes</h2>
+        <p>Customers can keep browsing without losing momentum.</p>
+      </div>
+    </div>
+    <div class="card-grid">
+      {% for bike in related_products %}
+        {% include 'partials/product_card.html' with bike=bike %}
+      {% empty %}
+        <div class="glass-card empty-state">More bikes from this category will appear here.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

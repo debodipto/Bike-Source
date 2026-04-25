@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}My Listings | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <p class="eyebrow">Seller dashboard</p>
+        <h2>Your submitted bike listings</h2>
+      </div>
+      <a class="button" href="{% url 'sell' %}">Add another bike</a>
+    </div>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      {% for bike in bike_buy_and_sell %}
+        <div class="product-card">
+          <div class="product-media">
+            {% if bike.get_first_image %}
+              <img src="{{ bike.get_first_image.image.url }}" alt="{{ bike.name }}">
+            {% else %}
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/512px-No_image_available.svg.png" alt="{{ bike.name }}">
+            {% endif %}
+          </div>
+          <div class="badge-row">
+            <span class="badge">{{ bike.status }}</span>
+            {% if bike.is_available %}<span class="badge badge-green">In stock</span>{% endif %}
+          </div>
+          <h3>{{ bike.name }}</h3>
+          <p class="muted">{{ bike.brand }} • ৳{{ bike.price }}</p>
+          <p>{{ bike.description|truncatechars:120 }}</p>
+        </div>
+      {% empty %}
+        <div class="glass-card empty-state">You have not submitted any listings yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

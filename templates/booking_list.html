@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}My Orders | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <p class="eyebrow">Order management</p>
+      <h2>Your order history</h2>
+    </div>
+    <div class="table-card">
+      {% if booking_list %}
+        <table>
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Date</th>
+              <th>Phone</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for book in booking_list %}
+              <tr>
+                <td>#{{ book.id }}</td>
+                <td>{{ book.created_at|date:"M d, Y" }}</td>
+                <td>{{ book.mobile }}</td>
+                <td>৳{{ book.total_price }}</td>
+                <td><span class="badge {% if book.status == 'Delivered' %}badge-green{% endif %}">{{ book.status }}</span></td>
+                <td><a class="pill-link" href="{% url 'order_details' book.id %}">View details</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty-state">You have not placed any orders yet.</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

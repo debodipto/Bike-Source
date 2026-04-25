@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Logged Out | Bike Source{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="auth-card">
+    <p class="eyebrow">Session closed</p>
+    <h1>You have been logged out safely.</h1>
+    <p class="lead">Come back anytime to continue managing listings, wishlists, and orders.</p>
+    <div class="inline-actions">
+      <a class="button" href="{% url 'login' %}">Login again</a>
+      <a class="pill-link" href="{% url 'index' %}">Return home</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

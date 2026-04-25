@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Compare Bikes | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <p class="eyebrow">Comparison tool</p>
+      <h2>Compare bikes side by side</h2>
+      <p>Add bikes from the marketplace cards. Your selected compare list is now saved during the session and supports up to three bikes.</p>
+    </div>
+    <div class="compare-grid">
+      {% for bike in bikes %}
+        <div class="glass-card">
+          <h3>{{ bike.name }}</h3>
+          <div class="price">Tk {{ bike.price }}</div>
+          <p class="muted">{{ bike.brand }}{% if bike.model_year %} | {{ bike.model_year }}{% endif %}</p>
+          <p><strong>Condition:</strong> {{ bike.condition }}</p>
+          <p><strong>Location:</strong> {{ bike.location|default:"Not specified" }}</p>
+          <p><strong>Mileage:</strong> {{ bike.mileage|default:"N/A" }} km</p>
+          <p><strong>Engine:</strong> {{ bike.engine_capacity|default:"N/A" }}</p>
+          <div class="inline-actions">
+            <a class="button" href="{% url 'product_detail' bike.id %}">View details</a>
+            <a class="pill-link" href="{% url 'toggle_compare' bike.id %}">Remove</a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="glass-card empty-state">Select at least one bike to start comparing.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Quick compare starters</h2>
+      </div>
+    </div>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      {% for bike in compare_base %}
+        {% include 'partials/product_card.html' with bike=bike %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

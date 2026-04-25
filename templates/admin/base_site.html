@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'bike_buy_and_sell/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+  <div class="admin-branding">
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">Bike Source Control Center</a></h1>
+    <p>Operations dashboard for listings, orders, financing, trade-ins, inspections, and support.</p>
+  </div>
+{% endblock %}

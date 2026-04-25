@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Order Confirmed | Bike Source{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="auth-card">
+    <p class="eyebrow">Order placed</p>
+    <h1>Your order has been created successfully.</h1>
+    <p class="lead">Order #{{ order.id }} is now in our system. You can track its progress from your dashboard and order history.</p>
+    <div class="inline-actions">
+      <a class="button" href="{% url 'order_details' order.id %}">View order details</a>
+      <a class="pill-link" href="{% url 'buy_list' %}">Continue shopping</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

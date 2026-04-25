@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}{{ page_title|default:'Marketplace' }} | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <p class="eyebrow">Marketplace</p>
+      <h2>{{ page_title|default:'Browse Pre-Owned Bikes' }}</h2>
+      <p>Filter by category, city, condition, and budget to find the right used bike faster.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container split-grid">
+    <aside class="glass-card filter-card">
+      <h3>Smart filters</h3>
+      <form method="get" class="form-grid">
+        <div class="field-wide">
+          <label for="id_query">Search</label>
+          <input id="id_query" type="text" name="query" value="{{ query }}" placeholder="Brand, bike name, city">
+        </div>
+        <div class="field-wide">
+          <label for="id_category">Category</label>
+          <select id="id_category" name="category">
+            <option value="">All categories</option>
+            {% for category in categories %}
+              <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:'s' %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field-wide">
+          <label for="id_city">City</label>
+          <input id="id_city" type="text" name="city" value="{{ selected_city }}" placeholder="Dhaka, Chattogram">
+        </div>
+        <div class="field-wide">
+          <label for="id_condition">Condition</label>
+          <select id="id_condition" name="condition">
+            <option value="">All conditions</option>
+            {% for value, label in conditions %}
+              <option value="{{ value }}" {% if selected_condition == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field-wide">
+          <label for="id_max_price">Maximum price</label>
+          <input id="id_max_price" type="number" name="max_price" value="{{ selected_max_price }}" placeholder="e.g. 250000">
+        </div>
+        <div class="field-wide">
+          <button type="submit">Apply filters</button>
+        </div>
+      </form>
+    </aside>
+
+    <div class="results-card">
+      <div class="section-head">
+        <div>
+          <h3>{{ bike_buy_and_sell|length }} bike{{ bike_buy_and_sell|length|pluralize }} found</h3>
+          <p class="muted">Cleanly presented, customer-friendly marketplace cards with direct actions.</p>
+        </div>
+        <a class="pill-link" href="{% url 'compare' %}">Open compare page</a>
+      </div>
+      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        {% for bike in bike_buy_and_sell %}
+          {% include 'partials/product_card.html' with bike=bike %}
+        {% empty %}
+          <div class="glass-card empty-state">No bikes matched your filters. Try a broader search.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

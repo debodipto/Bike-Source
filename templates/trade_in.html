@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Trade-In | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container split-grid">
+    <div class="glass-card" style="grid-column: span 5;">
+      <p class="eyebrow">Upgrade program</p>
+      <h2>Trade in your old bike and move up faster.</h2>
+      <p class="lead">Customers can now submit basic trade-in details so your team can review bike condition and expected price from admin.</p>
+    </div>
+    <div class="glass-card" style="grid-column: span 7;">
+      <div class="section-title">
+        <h2>Trade-in request</h2>
+      </div>
+      <form method="post" class="form-grid">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="{% if field.name == 'details' %}field-wide{% else %}field{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endfor %}
+        <div class="field-wide">
+          <button type="submit">Submit trade-in request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

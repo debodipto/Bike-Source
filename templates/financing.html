@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Financing | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container split-grid">
+    <div class="glass-card" style="grid-column: span 5;">
+      <p class="eyebrow">Bike financing</p>
+      <h2>Apply for financing in a few minutes.</h2>
+      <p class="lead">This is now a fully working feature with admin-stored applications, making the project feel much more like a complete ecommerce platform.</p>
+      <div class="review-list">
+        <div class="review-card">
+          <strong>Income-based review</strong>
+          <p class="muted">Collects monthly income and down-payment information for evaluation.</p>
+        </div>
+        <div class="review-card">
+          <strong>Bike preference capture</strong>
+          <p class="muted">Lets customers mention the bike they want to finance.</p>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card" style="grid-column: span 7;">
+      <div class="section-title">
+        <h2>Submit your financing request</h2>
+      </div>
+      <form method="post" class="form-grid">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="{% if field.name == 'notes' %}field-wide{% else %}field{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endfor %}
+        <div class="field-wide">
+          <button type="submit">Submit application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

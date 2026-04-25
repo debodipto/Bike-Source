@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Wishlist | Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <p class="eyebrow">Saved bikes</p>
+        <h2>Your wishlist</h2>
+      </div>
+      <a class="pill-link" href="{% url 'buy_list' %}">Browse more bikes</a>
+    </div>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      {% for item in wishlist_items %}
+        {% include 'partials/product_card.html' with bike=item.bike %}
+      {% empty %}
+        <div class="glass-card empty-state">No saved bikes yet. Add bikes to your wishlist from the marketplace.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

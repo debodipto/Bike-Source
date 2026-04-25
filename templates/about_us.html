@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}About Bike Source{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container split-grid">
+    <div class="glass-card" style="grid-column: span 7;">
+      <p class="eyebrow">About us</p>
+      <h2>We are building a safer, cleaner used bike commerce journey.</h2>
+      <p class="lead">Bike Source started as a simple buy-and-sell portal. It is now upgraded into a broader platform covering bike discovery, inspections, service support, financing, trade-in, and post-purchase order management.</p>
+      <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 24px;">
+        <div class="metric-card">
+          <strong>{{ stats.live_listings }}</strong>
+          <span class="muted">Live marketplace listings</span>
+        </div>
+        <div class="metric-card">
+          <strong>{{ stats.happy_riders }}</strong>
+          <span class="muted">Orders completed</span>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card" style="grid-column: span 5;">
+      <div class="section-title">
+        <h2>Why riders trust us</h2>
+      </div>
+      <div class="review-list">
+        <div class="review-card">
+          <strong>Approval-based listing flow</strong>
+          <p class="muted">Helps keep low-quality or incomplete listings away from customers.</p>
+        </div>
+        <div class="review-card">
+          <strong>Inspection bookings</strong>
+          <p class="muted">Customers can book a viewing step before final purchase.</p>
+        </div>
+        <div class="review-card">
+          <strong>After-sales support</strong>
+          <p class="muted">Service center information creates confidence beyond the checkout stage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

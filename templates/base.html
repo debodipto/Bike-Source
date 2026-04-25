@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Bike Source{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'bike_buy_and_sell/theme.css' %}">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="{% url 'index' %}">
+          <span class="brand-mark">BS</span>
+          <span>
+            <strong>Bike Source</strong>
+            <small>Trusted pre-owned marketplace</small>
+          </span>
+        </a>
+        <nav class="main-nav">
+          <a href="{% url 'index' %}">Home</a>
+          <a href="{% url 'buy_list' %}">Marketplace</a>
+          <a href="{% url 'sell' %}">Sell Bike</a>
+          <a href="{% url 'financing' %}">Financing</a>
+          <a href="{% url 'trade_in' %}">Trade-In</a>
+          <a href="{% url 'inspection' %}">Inspection</a>
+          <a href="{% url 'service_centers' %}">Service</a>
+          <a href="{% url 'compare' %}">Compare</a>
+          <a href="{% url 'contact' %}">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="pill-link" href="{% url 'cart_detail' %}">Cart ({{ cart|length }})</a>
+          {% if request.user.is_authenticated %}
+            <a class="pill-link" href="{% url 'wishlist' %}">Wishlist</a>
+            <a class="button button-secondary" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="pill-link" href="{% url 'logout' %}">Logout</a>
+          {% else %}
+            <a class="pill-link" href="{% url 'login' %}">Login</a>
+            <a class="button" href="{% url 'registration' %}">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <main>
+      {% if messages %}
+        <div class="container flash-stack">
+          {% for message in messages %}
+            <div class="flash {{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Bike Source</h3>
+          <p>Buy, sell, finance, inspect, and manage used bikes from one modern platform.</p>
+          <p>2026 Bike Source</p>
+          <p>Created by Debodipto Samadder</p>
+        </div>
+        <div>
+          <h4>Customer Tools</h4>
+          <a href="{% url 'buy_list' %}">Browse bikes</a>
+          <a href="{% url 'compare' %}">Compare bikes</a>
+          <a href="{% url 'financing' %}">Apply for financing</a>
+          <a href="{% url 'inspection' %}">Book inspection</a>
+        </div>
+        <div>
+          <h4>Marketplace</h4>
+          <a href="{% url 'sell' %}">Create listing</a>
+          <a href="{% url 'service_centers' %}">Service centers</a>
+          <a href="{% url 'about' %}">About us</a>
+          <a href="/admin/">Admin panel</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

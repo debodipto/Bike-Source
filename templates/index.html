@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block title %}Bike Source | Enterprise Used Bike Marketplace{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Enterprise-grade used bike ecommerce</p>
+      <h1>Buy, sell, inspect, finance, and manage used bikes in one place.</h1>
+      <p>Bike Source helps riders discover trusted listings, compare bikes confidently, and complete their next purchase with customer-friendly support at every step.</p>
+      <div class="hero-actions">
+        <a class="button" href="{% url 'buy_list' %}">Explore marketplace</a>
+        <a class="pill-link" href="{% url 'sell' %}">List your bike</a>
+        <a class="pill-link" href="{% url 'inspection' %}">Book inspection</a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <span class="badge">Smart buyer journey</span>
+      <h2>Verified listings, flexible financing, service support, and seller tools built for scale.</h2>
+      <p>From first browse to delivery tracking, the platform now covers the full customer lifecycle.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container stats-grid">
+    <div class="metric-card">
+      <strong>{{ stats.live_listings }}</strong>
+      <span class="muted">Live approved listings</span>
+    </div>
+    <div class="metric-card">
+      <strong>{{ stats.featured_bikes }}</strong>
+      <span class="muted">Featured showroom bikes</span>
+    </div>
+    <div class="metric-card">
+      <strong>{{ stats.happy_riders }}</strong>
+      <span class="muted">Orders processed</span>
+    </div>
+    <div class="metric-card">
+      <strong>{{ stats.seller_count }}</strong>
+      <span class="muted">Active marketplace sellers</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Featured bikes</h2>
+        <p>Handpicked listings with strong presentation, condition, and rider appeal.</p>
+      </div>
+      <a class="pill-link" href="{% url 'buy_list' %}">View all inventory</a>
+    </div>
+    <div class="card-grid">
+      {% for bike in featured_bikes %}
+        {% include 'partials/product_card.html' with bike=bike %}
+      {% empty %}
+        <div class="glass-card empty-state">No featured listings yet. Add bikes from the admin panel to highlight them here.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split-grid">
+    <div class="glass-card" style="grid-column: span 7;">
+      <div class="section-title">
+        <h2>Browse by category</h2>
+        <p>Discover bikes faster with clean category navigation.</p>
+      </div>
+      <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+        {% for category in categories %}
+          <a class="product-card" href="{% url 'category_based_bike' category.id %}">
+            <span class="badge">{{ category.total_bikes }} bikes</span>
+            <h3>{{ category.name }}</h3>
+            <p class="muted">Explore approved used bikes in {{ category.name }} and shortlist your next ride.</p>
+          </a>
+        {% empty %}
+          <div class="empty-state">Categories will appear here after you add them from admin.</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="glass-card" style="grid-column: span 5;">
+      <div class="section-title">
+        <h2>Customer-first tools</h2>
+      </div>
+      <div class="review-list">
+        <div class="review-card">
+          <h3>Finance with confidence</h3>
+          <p class="muted">Simple financing application with income and down-payment details.</p>
+          <a class="pill-link" href="{% url 'financing' %}">Apply now</a>
+        </div>
+        <div class="review-card">
+          <h3>Trade in your old bike</h3>
+          <p class="muted">Request a valuation and upgrade to a better ride faster.</p>
+          <a class="pill-link" href="{% url 'trade_in' %}">Start trade-in</a>
+        </div>
+        <div class="review-card">
+          <h3>Book a physical inspection</h3>
+          <p class="muted">Reserve a slot before buying to inspect the bike in detail.</p>
+          <a class="pill-link" href="{% url 'inspection' %}">Book slot</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Newly added bikes</h2>
+        <p>Fresh arrivals from active sellers across the marketplace.</p>
+      </div>
+    </div>
+    <div class="card-grid">
+      {% for bike in latest_bikes %}
+        {% include 'partials/product_card.html' with bike=bike %}
+      {% empty %}
+        <div class="glass-card empty-state">Approved bikes will appear here once sellers start listing.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Service coverage</h2>
+        <p>Support riders beyond the sale with trusted service touchpoints.</p>
+      </div>
+      <a class="pill-link" href="{% url 'service_centers' %}">See all service centers</a>
+    </div>
+    <div class="service-grid">
+      {% for center in service_centers %}
+        <div class="glass-card">
+          <span class="badge {% if center.is_authorized %}badge-green{% endif %}">
+            {% if center.is_authorized %}Authorized{% else %}Partner{% endif %}
+          </span>
+          <h3>{{ center.name }}</h3>
+          <p class="muted">{{ center.city }}</p>
+          <p>{{ center.address }}</p>
+          <p><strong>{{ center.phone }}</strong></p>
+          <p class="helper-text">{{ center.opening_hours }}</p>
+        </div>
+      {% empty %}
+        <div class="glass-card empty-state">Add service centers from admin to show support coverage here.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
