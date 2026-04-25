@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError
 
@@ -8,9 +9,9 @@ class Command(BaseCommand):
     help = "Create or update a superuser from environment variables."
 
     def add_arguments(self, parser):
-        parser.add_argument("--username", default=os.environ.get("ADMIN_USERNAME"))
-        parser.add_argument("--email", default=os.environ.get("ADMIN_EMAIL"))
-        parser.add_argument("--password", default=os.environ.get("ADMIN_PASSWORD"))
+        parser.add_argument("--username", default=os.environ.get("ADMIN_USERNAME", settings.DEFAULT_ADMIN_USERNAME))
+        parser.add_argument("--email", default=os.environ.get("ADMIN_EMAIL", settings.DEFAULT_ADMIN_EMAIL))
+        parser.add_argument("--password", default=os.environ.get("ADMIN_PASSWORD", settings.DEFAULT_ADMIN_PASSWORD))
 
     def handle(self, *args, **options):
         username = (options.get("username") or "").strip()

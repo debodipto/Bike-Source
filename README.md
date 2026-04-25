@@ -30,7 +30,15 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Admin user create korte:
+Permanent default admin (code thekei auto-create/update hoy):
+
+```text
+username: admin
+email: admin@bikesource.local
+password: Admin@12345
+```
+
+Manual admin user create korte chaile:
 
 ```powershell
 python manage.py createsuperuser
@@ -68,13 +76,19 @@ Production-ready setup includes:
 3. Create a new Blueprint or connect the GitHub repo
 4. Render will read `render.yaml`
 5. Deploy the web service and PostgreSQL database
-6. If Render Shell is available, open it and run:
+6. Deploy-er por build step automatic ei command run kore:
+
+```powershell
+python manage.py ensure_admin
+```
+
+7. If Render Shell is available, open it and run:
 
 ```powershell
 python manage.py createsuperuser
 ```
 
-If Render Shell is not available on your plan, use the custom admin command instead:
+If Render Shell is not available on your plan, default admin already create hoye jabe. Custom admin command diye override korte hole:
 
 1. Add these environment variables in Render:
    - `ADMIN_USERNAME`
