@@ -42,6 +42,44 @@ Admin panel:
 http://127.0.0.1:8000/admin/
 ```
 
+## Render Deployment Ready
+
+This project is now prepared for Render deployment.
+
+Added deployment files:
+
+- `render.yaml`
+- `build.sh`
+- `.python-version`
+
+Production-ready setup includes:
+
+- environment-based `SECRET_KEY`
+- environment-based `DEBUG`
+- PostgreSQL support through `DATABASE_URL`
+- WhiteNoise static file serving
+- Gunicorn + Uvicorn start command
+- automatic `collectstatic` and `migrate` during build
+
+### Deploy on Render
+
+1. Push the project to GitHub
+2. Open Render Dashboard
+3. Create a new Blueprint or connect the GitHub repo
+4. Render will read `render.yaml`
+5. Deploy the web service and PostgreSQL database
+6. After deploy finishes, open Render Shell and run:
+
+```powershell
+python manage.py createsuperuser
+```
+
+### Important Render Notes
+
+- SQLite is not recommended for production on Render, so this project is configured to use PostgreSQL when `DATABASE_URL` is present
+- Local development still works with SQLite if `DATABASE_URL` is not set
+- Uploaded media on Render is not permanently stored unless you add external storage or persistent disk
+
 ## Main User Modules
 
 - Home page

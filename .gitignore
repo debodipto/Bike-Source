@@ -5,6 +5,7 @@ __pycache__/
 *.pyd
 db.sqlite3
 media/
+staticfiles/
 .env
 .DS_Store
 Thumbs.db
