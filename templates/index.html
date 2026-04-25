@@ -1,23 +1,44 @@
 {% extends 'base.html' %}
 {% block title %}Bike Source | Used Bike Marketplace{% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">Used bike marketplace</p>
-      <h1>Buy, sell, inspect, finance, and manage used bikes in one place.</h1>
-      <p>Bike Source helps riders discover trusted listings, compare bikes confidently, and complete their next purchase with customer-friendly support at every step.</p>
-      <div class="hero-actions">
-        <a class="button" href="{% url 'buy_list' %}">Explore marketplace</a>
-        <a class="pill-link" href="{% url 'sell' %}">List your bike</a>
-        <a class="pill-link" href="{% url 'inspection' %}">Book inspection</a>
+<section class="banner-slider-section">
+  <div class="container">
+    {% if banners %}
+      <div class="banner-slider" data-banner-slider>
+        <div class="banner-slider-track">
+          {% for banner in banners %}
+            <article class="banner-slide {% if forloop.first %}is-active{% endif %}" data-banner-slide>
+              <img class="banner-slide-image" src="{{ banner.banner_image.url }}" alt="{{ banner.title|default:'Bike Source banner' }}">
+              <div class="banner-slide-overlay"></div>
+              <div class="banner-slide-content">
+                <span class="badge">Featured banner</span>
+                <h1>{{ banner.title|default:"Trusted used bikes across Bangladesh" }}</h1>
+                <p>{{ banner.subtitle|default:"Find approved listings, compare top rides, and move from discovery to delivery with confidence." }}</p>
+                <div class="hero-actions">
+                  <a class="button" href="{% url 'buy_list' %}">Browse bikes</a>
+                  <a class="pill-link" href="{% url 'sell' %}">Sell your bike</a>
+                  <a class="pill-link" href="{% url 'inspection' %}">Book inspection</a>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+        {% if banners|length > 1 %}
+          <div class="banner-slider-dots" aria-label="Banner navigation">
+            {% for banner in banners %}
+              <button
+                class="banner-dot {% if forloop.first %}is-active{% endif %}"
+                type="button"
+                aria-label="Go to banner {{ forloop.counter }}"
+                data-banner-dot
+              ></button>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
-    </div>
-    <div class="hero-panel">
-      <span class="badge">Smart buyer journey</span>
-      <h2>Verified listings, flexible financing, service support, and seller tools built for scale.</h2>
-      <p>From first browse to delivery tracking, the platform now covers the full customer lifecycle.</p>
-    </div>
+    {% else %}
+      <div class="glass-card empty-state">No home banners added yet. Create banner entries from the admin panel to display them here.</div>
+    {% endif %}
   </div>
 </section>
 
@@ -150,4 +171,39 @@
     </div>
   </div>
 </section>
+{% endblock %}
+{% block extra_scripts %}
+  {{ block.super }}
+  <script>
+    (function () {
+      const slider = document.querySelector("[data-banner-slider]");
+      if (!slider) return;
+
+      const slides = Array.from(slider.querySelectorAll("[data-banner-slide]"));
+      const dots = Array.from(slider.querySelectorAll("[data-banner-dot]"));
+      if (slides.length <= 1) return;
+
+      let activeIndex = 0;
+
+      function setActiveSlide(nextIndex) {
+        slides[activeIndex].classList.remove("is-active");
+        if (dots[activeIndex]) dots[activeIndex].classList.remove("is-active");
+
+        activeIndex = nextIndex;
+
+        slides[activeIndex].classList.add("is-active");
+        if (dots[activeIndex]) dots[activeIndex].classList.add("is-active");
+      }
+
+      dots.forEach(function (dot, index) {
+        dot.addEventListener("click", function () {
+          setActiveSlide(index);
+        });
+      });
+
+      setInterval(function () {
+        setActiveSlide((activeIndex + 1) % slides.length);
+      }, 3000);
+    })();
+  </script>
 {% endblock %}
