@@ -9,30 +9,32 @@
     </div>
     <div class="table-card">
       {% if booking_list %}
-        <table>
-          <thead>
-            <tr>
-              <th>Order</th>
-              <th>Date</th>
-              <th>Phone</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for book in booking_list %}
+        <div class="table-scroll">
+          <table>
+            <thead>
               <tr>
-                <td>#{{ book.id }}</td>
-                <td>{{ book.created_at|date:"M d, Y" }}</td>
-                <td>{{ book.mobile }}</td>
-                <td>৳{{ book.total_price }}</td>
-                <td><span class="badge {% if book.status == 'Delivered' %}badge-green{% endif %}">{{ book.status }}</span></td>
-                <td><a class="pill-link" href="{% url 'order_details' book.id %}">View details</a></td>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Phone</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th></th>
               </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {% for book in booking_list %}
+                <tr>
+                  <td data-label="Order">#{{ book.id }}</td>
+                  <td data-label="Date">{{ book.created_at|date:"M d, Y" }}</td>
+                  <td data-label="Phone">{{ book.mobile }}</td>
+                  <td data-label="Total">Tk {{ book.total_price }}</td>
+                  <td data-label="Status"><span class="badge {% if book.status == 'Delivered' %}badge-green{% endif %}">{{ book.status }}</span></td>
+                  <td data-label="Action"><a class="pill-link" href="{% url 'order_details' book.id %}">View details</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       {% else %}
         <div class="empty-state">You have not placed any orders yet.</div>
       {% endif %}

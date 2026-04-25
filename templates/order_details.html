@@ -4,7 +4,7 @@
 <section class="section">
   <div class="container">
     <div class="split-grid">
-      <div class="glass-card" style="grid-column: span 5;">
+      <div class="glass-card span-5">
         <p class="eyebrow">Order overview</p>
         <h2>Order #{{ order.id }}</h2>
         <p class="lead">{{ order.email }}</p>
@@ -12,9 +12,9 @@
         <p><strong>Address:</strong> {{ order.address }}</p>
         <p><strong>Payment:</strong> {{ order.payment_method }}</p>
         {% if order.notes %}<p><strong>Notes:</strong> {{ order.notes }}</p>{% endif %}
-        <div class="price">৳{{ order.total_price }}</div>
+        <div class="price">Tk {{ order.total_price }}</div>
       </div>
-      <div class="glass-card" style="grid-column: span 7;">
+      <div class="glass-card span-7">
         <div class="section-title">
           <h2>Order items</h2>
         </div>
@@ -22,8 +22,8 @@
           {% for product in products %}
             <div class="review-card">
               <strong>{{ product.bike_buy_and_sell.name }}</strong>
-              <p class="muted">Qty {{ product.quantity }} • Unit ৳{{ product.price }}</p>
-              <div class="price" style="font-size: 1.1rem;">৳{{ product.get_cost }}</div>
+              <p class="muted">Qty {{ product.quantity }} | Unit Tk {{ product.price }}</p>
+              <div class="price" style="font-size: 1.1rem;">Tk {{ product.get_cost }}</div>
             </div>
           {% endfor %}
         </div>

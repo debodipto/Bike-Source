@@ -12,43 +12,45 @@
     </div>
     <div class="table-card">
       {% if cart|length > 0 %}
-        <table>
-          <thead>
-            <tr>
-              <th>Bike</th>
-              <th>Quantity</th>
-              <th>Unit price</th>
-              <th>Total</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in cart %}
-              {% with product=item.product %}
-                <tr>
-                  <td>
-                    <strong>{{ product.name }}</strong>
-                    <div class="helper-text">{{ product.brand }} • {{ product.category.name }}</div>
-                  </td>
-                  <td>
-                    <form action="{% url 'cart_update' product.id %}" method="post" class="inline-actions">
-                      {% csrf_token %}
-                      {{ item.update_quantity_form.quantity }}
-                      {{ item.update_quantity_form.update }}
-                      <button type="submit">Update</button>
-                    </form>
-                  </td>
-                  <td>৳{{ item.price }}</td>
-                  <td>৳{{ item.total_price }}</td>
-                  <td><a class="pill-link" href="{% url 'cart_remove' product.id %}">Remove</a></td>
-                </tr>
-              {% endwith %}
-            {% endfor %}
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Bike</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart %}
+                {% with product=item.product %}
+                  <tr>
+                    <td data-label="Bike">
+                      <strong>{{ product.name }}</strong>
+                      <div class="helper-text">{{ product.brand }} | {{ product.category.name }}</div>
+                    </td>
+                    <td data-label="Quantity">
+                      <form action="{% url 'cart_update' product.id %}" method="post" class="inline-actions">
+                        {% csrf_token %}
+                        {{ item.update_quantity_form.quantity }}
+                        {{ item.update_quantity_form.update }}
+                        <button type="submit">Update</button>
+                      </form>
+                    </td>
+                    <td data-label="Unit price">Tk {{ item.price }}</td>
+                    <td data-label="Total">Tk {{ item.total_price }}</td>
+                    <td data-label="Action"><a class="pill-link" href="{% url 'cart_remove' product.id %}">Remove</a></td>
+                  </tr>
+                {% endwith %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
         <div class="product-footer" style="padding-top: 24px;">
           <div>
-            <div class="price">৳{{ cart.get_total_price }}</div>
+            <div class="price">Tk {{ cart.get_total_price }}</div>
             <div class="helper-text">Grand total</div>
           </div>
           <a class="button" href="{% url 'order_create' %}">Proceed to checkout</a>

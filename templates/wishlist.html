@@ -10,7 +10,7 @@
       </div>
       <a class="pill-link" href="{% url 'buy_list' %}">Browse more bikes</a>
     </div>
-    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card-grid card-grid-3">
       {% for item in wishlist_items %}
         {% include 'partials/product_card.html' with bike=item.bike %}
       {% empty %}

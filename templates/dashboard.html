@@ -29,26 +29,28 @@
       <div class="table-card">
         <h3>Recent orders</h3>
         {% if orders %}
-          <table>
-            <thead>
-              <tr>
-                <th>Order</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for order in orders %}
+          <div class="table-scroll">
+            <table>
+              <thead>
                 <tr>
-                  <td>#{{ order.id }}</td>
-                  <td>{{ order.created_at|date:"M d, Y" }}</td>
-                  <td>{{ order.status }}</td>
-                  <td>৳{{ order.total_price }}</td>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Total</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {% for order in orders %}
+                  <tr>
+                    <td data-label="Order">#{{ order.id }}</td>
+                    <td data-label="Date">{{ order.created_at|date:"M d, Y" }}</td>
+                    <td data-label="Status">{{ order.status }}</td>
+                    <td data-label="Total">Tk {{ order.total_price }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         {% else %}
           <div class="empty-state">No recent orders yet.</div>
         {% endif %}
@@ -60,7 +62,7 @@
           {% for item in wishlist_items %}
             <div class="review-card">
               <strong>{{ item.bike.name }}</strong>
-              <p class="muted">৳{{ item.bike.price }}</p>
+              <p class="muted">Tk {{ item.bike.price }}</p>
             </div>
           {% empty %}
             <div class="empty-state">Wishlist is empty.</div>

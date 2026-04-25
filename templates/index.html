@@ -84,12 +84,12 @@
 
 <section class="section">
   <div class="container split-grid">
-    <div class="glass-card" style="grid-column: span 7;">
+    <div class="glass-card span-7">
       <div class="section-title">
         <h2>Browse by category</h2>
         <p>Discover bikes faster with clean category navigation.</p>
       </div>
-      <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+      <div class="card-grid card-grid-2">
         {% for category in categories %}
           <a class="product-card" href="{% url 'category_based_bike' category.id %}">
             <span class="badge">{{ category.total_bikes }} bikes</span>
@@ -101,7 +101,7 @@
         {% endfor %}
       </div>
     </div>
-    <div class="glass-card" style="grid-column: span 5;">
+    <div class="glass-card span-5">
       <div class="section-title">
         <h2>Customer-first tools</h2>
       </div>
